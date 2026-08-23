@@ -71,19 +71,19 @@ export function SideRays({
 
     // Define individual volumetric light rays (increased count and parameters)
     const rayCount = 14;
-    const rays = Array.from({ length: rayCount }, (_, idx) => {
-      const step = idx / rayCount;
-      return {
-        angleOffset: (Math.random() - 0.5) * 0.75 * spread,
-        width: 0.04 + Math.random() * 0.08 * spread,
-        phase: Math.random() * Math.PI * 2,
-        rotSpeed: (0.003 + Math.random() * 0.005) * speed,
-        pulseSpeed: (0.015 + Math.random() * 0.025) * speed,
-        color: Math.random() > 0.45 ? rayColor1 : rayColor2,
-        length: Math.max(width, height) * 1.6,
-        maxOpacity: (0.15 + Math.random() * 0.2) * intensity * opacity // Boosted opacity (15% - 35%)
-      };
-    });
+
+  const rays = Array.from({ length: rayCount }, () => {
+    return {
+      angleOffset: (Math.random() - 0.5) * 0.75 * spread,
+      width: 0.04 + Math.random() * 0.08 * spread,
+      phase: Math.random() * Math.PI * 2,
+      rotSpeed: (0.003 + Math.random() * 0.005) * speed,
+      pulseSpeed: (0.015 + Math.random() * 0.025) * speed,
+      color: Math.random() > 0.45 ? rayColor1 : rayColor2,
+      length: Math.max(width, height) * 1.6,
+      maxOpacity: (0.15 + Math.random() * 0.2) * intensity * opacity
+    };
+  });
 
     let time = 0;
 
