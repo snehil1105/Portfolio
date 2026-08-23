@@ -34,15 +34,32 @@ class StreakServiceTests {
     void setUp() {
         snapshotRepository.deleteAll();
         // Seed default empty states just like DataInitializer
-        snapshotRepository.save(new StreakSnapshot(Platform.LEETCODE, 0, 0, LocalDateTime.now()));
-        snapshotRepository.save(new StreakSnapshot(Platform.CODEFORCES, 0, 0, LocalDateTime.now()));
+        snapshotRepository.save(
+            new StreakSnapshot(
+                Platform.LEETCODE,
+                0,
+                0,
+                LocalDateTime.now(),
+                ""
+            )
+        );  
+
+        snapshotRepository.save(
+            new StreakSnapshot(
+                Platform.CODEFORCES,
+                0,
+                0,
+                LocalDateTime.now(),
+                ""
+            )
+        );
     }
 
     @Test
     void testSuccessfulSync() {
         // Arrange
-        when(leetCodeClient.fetchStreak()).thenReturn(new StreakDTO(150, 7));
-        when(codeforcesClient.fetchStreak()).thenReturn(new StreakDTO(220, 12));
+        when(leetCodeClient.fetchStreak()).thenReturn(new StreakDTO(150, 7, "true"));
+        when(codeforcesClient.fetchStreak()).thenReturn(new StreakDTO(220, 12, ""));
 
         // Act
         streakService.syncLeetCode();
@@ -64,7 +81,7 @@ class StreakServiceTests {
     @Test
     void testResilienceOnClientFailure() {
         // Step 1: Establish a good snapshot in the database
-        when(leetCodeClient.fetchStreak()).thenReturn(new StreakDTO(150, 7));
+        when(leetCodeClient.fetchStreak()).thenReturn(new StreakDTO(150, 7, "true"));
         streakService.syncLeetCode();
 
         StreakSnapshot initialSnapshot = snapshotRepository.findById(Platform.LEETCODE).orElse(null);
