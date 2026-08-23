@@ -59,7 +59,7 @@ class StreakServiceTests {
     void testSuccessfulSync() {
         // Arrange
         when(leetCodeClient.fetchStreak()).thenReturn(new StreakDTO(150, 7, "true"));
-        when(codeforcesClient.fetchStreak()).thenReturn(new StreakDTO(220, 12, ""));
+        when(codeforcesClient.fetchStreak()).thenReturn(new StreakDTO(220, 12, "true"));
 
         // Act
         streakService.syncLeetCode();
