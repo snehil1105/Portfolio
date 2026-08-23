@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snehil | Software Engineer Portfolio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Left Column: Sticky Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-logo">Snehil</h1>
+                    <div class="sidebar-title mono-font">Full Stack Engineer</div>
+                    <p class="sidebar-desc">
+                        Crafting clean, modular backend architectures and interactive user experiences. Creator of StudyPilot and HookRelay.
+                    </p>
+                </div>
+
+                <!-- Global Likes Widget -->
+                <div class="likes-widget">
+                    <div class="likes-info">
+                        <h4>Community Love</h4>
+                        <p><span id="likes-count" th:text="${initialLikes}">0</span> page likes</p>
+                    </div>
+                    <button id="like-btn" class="like-button" aria-label="Like this portfolio">
+                        <!-- Inline Heart SVG -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="btn-text">Like</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-bottom">
+                <!-- Social Connections -->
+                <div class="social-links">
+                    <!-- Github Icon -->
+                    <a href="https://github.com/snehil" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                            <path d="M9 18c-4.51 2-5-2-7-2"/>
+                        </svg>
+                    </a>
+                    <!-- LinkedIn Icon -->
+                    <a href="https://linkedin.com/in/snehil" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect width="4" height="12" x="2" y="9"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                    </a>
+                    <!-- Mail Icon -->
+                    <a href="mailto:snehil@example.com" aria-label="Email Me">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="sidebar-footer">
+                    <p class="mono-font">&copy; 2026 Snehil. Built with Spring Boot &amp; Thymeleaf.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Column: Scrollable Content -->
+        <main class="main-content">
+            
+            <!-- Parallax Hero -->
+            <div class="hero-parallax">
+                <div class="parallax-text">
+                    <h2 class="serif-font">Design. Build. Refine.</h2>
+                    <p class="mono-font">Solving complex backend workflows with simple, robust solutions.</p>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <section id="about" class="fade-in">
+                <span class="section-label mono-font">01 / Concept</span>
+                <h2 class="section-title">About Me</h2>
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem; color: #cbd5e1;">
+                    I am a software engineer focused on building robust backends, scalable automation workflows, and clear user experiences. I design applications with clean abstractions, strict database guarantees, and transactional safety.
+                </p>
+                <p style="color: #94a3b8; font-size: 1rem;">
+                    My development philosophy centers on avoidant over-engineering: build database tables only when data is dynamic, write robust API integrations with caching to safeguard rate-limits, and prioritize atomic state updates to eliminate race conditions.
+                </p>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="fade-in">
+                <span class="section-label mono-font">02 / Competencies</span>
+                <h2 class="section-title">Tech Stack</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Backend Architecture</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag mono-font">Java 21</span>
+                            <span class="skill-tag mono-font">Spring Boot 3.x</span>
+                            <span class="skill-tag mono-font">Spring Web MVC</span>
+                            <span class="skill-tag mono-font">Spring Data JPA</span>
+                            <span class="skill-tag mono-font">Hibernate</span>
+                            <span class="skill-tag mono-font">PostgreSQL</span>
+                            <span class="skill-tag mono-font">REST APIs</span>
+                            <span class="skill-tag mono-font">JUnit 5</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Frontend &amp; Design</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag mono-font">Thymeleaf</span>
+                            <span class="skill-tag mono-font">HTML5 / CSS3</span>
+                            <span class="skill-tag mono-font">Vanilla JavaScript</span>
+                            <span class="skill-tag mono-font">Responsive Layouts</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="fade-in">
+                <span class="section-label mono-font">03 / Works</span>
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-container">
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="serif-font">StudyPilot</h3>
+                            <div class="project-links">
+                                <a href="https://github.com/snehil/studypilot" target="_blank" rel="noopener noreferrer" aria-label="StudyPilot GitHub">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-desc">
+                            An interactive academic planner and focus dashboard designed for university students. Helps orchestrate time-boxed study blocks and tracks course milestones.
+                        </p>
+                        <div class="project-tech">
+                            <span class="mono-font">Spring Boot</span>
+                            <span class="mono-font">PostgreSQL</span>
+                            <span class="mono-font">Thymeleaf</span>
+                            <span class="mono-font">CSS Variables</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="serif-font">HookRelay</h3>
+                            <div class="project-links">
+                                <a href="https://github.com/snehil/hookrelay" target="_blank" rel="noopener noreferrer" aria-label="HookRelay GitHub">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-desc">
+                            A webhook relay agent designed to manage delivery retries, log response states, and dispatch health alerts when microservice endpoints fail.
+                        </p>
+                        <div class="project-tech">
+                            <span class="mono-font">Java 21</span>
+                            <span class="mono-font">Spring Web</span>
+                            <span class="mono-font">JPA/Hibernate</span>
+                            <span class="mono-font">HikariCP</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Streak Integration Section -->
+            <section id="streaks" class="fade-in">
+                <span class="section-label mono-font">04 / Performance</span>
+                <h2 class="section-title">Coding Streaks</h2>
+                <p style="margin-bottom: 2rem; color: #94a3b8; font-size: 0.95rem;">
+                    Syncing live progress from competitive programming platforms. Refreshed hourly.
+                </p>
+                <div class="streak-grid">
+                    
+                    <!-- LeetCode Card -->
+                    <div class="streak-card">
+                        <div class="streak-card-header">
+                            <span class="platform-name platform-leetcode">LeetCode</span>
+                            <span id="lc-streak" class="streak-indicator inactive">
+                                <span class="loading-spinner"></span>
+                            </span>
+                        </div>
+                        <div>
+                            <div id="lc-solved" class="streak-value-large">—</div>
+                            <p style="color: #64748b; font-size: 0.9rem;">Problems Solved</p>
+                        </div>
+                        <div id="lc-updated" class="streak-meta mono-font">Loading sync stats...</div>
+                    </div>
+
+                    <!-- Codeforces Card -->
+                    <div class="streak-card">
+                        <div class="streak-card-header">
+                            <span class="platform-name platform-codeforces">Codeforces</span>
+                            <span id="cf-streak" class="streak-indicator inactive">
+                                <span class="loading-spinner"></span>
+                            </span>
+                        </div>
+                        <div>
+                            <div id="cf-solved" class="streak-value-large">—</div>
+                            <p style="color: #64748b; font-size: 0.9rem;">Unique Solved Problems</p>
+                        </div>
+                        <div id="cf-updated" class="streak-meta mono-font">Loading sync stats...</div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section id="timeline" class="fade-in">
+                <span class="section-label mono-font">05 / Milestones</span>
+                <h2 class="section-title">Learning Journey</h2>
+                <div class="timeline">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date mono-font">2026</div>
+                        <h3 class="timeline-title serif-font">Modular Integration &amp; Webhooks</h3>
+                        <p class="timeline-desc">
+                            Designed HookRelay to explore asynchronous event processing, database locks, and retry queues using Spring Data JPA.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date mono-font">2025</div>
+                        <h3 class="timeline-title serif-font">StudyPilot Architecture</h3>
+                        <p class="timeline-desc">
+                            Built StudyPilot, implementing Spring Boot MVC alongside server-rendered Thymeleaf pages to practice session state handling.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date mono-font">2024</div>
+                        <h3 class="timeline-title serif-font">Foundations in MVC &amp; Relational Databases</h3>
+                        <p class="timeline-desc">
+                            Gained deep experience in PostgreSQL query design, transactions, index optimization, and the basic Spring lifecycle.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Interactive Quotes -->
+            <div class="quotes-container fade-in">
+                <p id="quote-text" class="quote-text">"Loading quote..."</p>
+                <p id="quote-author" class="quote-author">— Author</p>
+            </div>
+
+            <!-- Footer for CTA -->
+            <div style="margin-top: 6rem; text-align: center;" class="fade-in">
+                <h3 class="serif-font" style="font-size: 1.8rem; margin-bottom: 1.5rem;">Have a project in mind?</h3>
+                <a href="mailto:snehil@example.com" class="btn-primary">Get In Touch</a>
+                <a href="#" class="btn-secondary" onclick="alert('Mock Resume PDF Linked here!'); return false;">Download Resume</a>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Main JS -->
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
