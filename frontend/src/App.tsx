@@ -81,11 +81,11 @@ function App() {
         <Header />
 
         {/* Bottom Pane: split center and right */}
-        <div className="flex-1 flex flex-col lg:flex-row h-full overflow-hidden relative z-10">
+        <div className="flex-1 flex flex-col lg:flex-row h-full overflow-y-auto lg:overflow-hidden relative z-10">
           
           {/* Center Column: Active section viewer & Quote speech bubble */}
           <div 
-            className={`flex-1 flex flex-col overflow-y-auto no-scrollbar transition-colors duration-500 relative z-10 ${
+            className={`flex-1 flex flex-col overflow-y-visible lg:overflow-y-auto no-scrollbar transition-colors duration-500 relative z-10 ${
               isDarkTab ? 'bg-bgDarkMed' : 'bg-bgLight'
             }`}
           >
@@ -95,7 +95,7 @@ function App() {
             </div>
 
             {/* Centered Speech Bubble Quote */}
-            <div className="py-12 flex-shrink-0 flex items-center justify-center border-t border-slate-300/20 dark:border-white/5">
+            <div className="py-12 px-6 flex-shrink-0 flex items-center justify-center border-t border-slate-300/20 dark:border-white/5">
               <QuoteRotator />
             </div>
           </div>

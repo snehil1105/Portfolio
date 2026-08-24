@@ -25,12 +25,12 @@ export function StreakCard({ streak, isSidebarHovered = false }: StreakCardProps
   return (
     <div className="relative rounded-2xl border bg-[#16181D] p-5 shadow-xl flex flex-col justify-between h-[210px] w-full border-white/5">
       
-      {/* Dynamic Popout Tooltip for Today's Solved Questions (Slides out to the Left) */}
+      {/* Dynamic Popout Tooltip for Today's Solved Questions (Slides out to the Left on desktop, overlays on mobile) */}
       <div 
-        className={`absolute right-full top-0 h-full mr-4 w-72 bg-[#F5F2EB] border border-slate-300 p-5 rounded-2xl shadow-2xl z-50 flex flex-col justify-between transition-all duration-300 ease-out origin-right ${
+        className={`absolute lg:right-full lg:top-0 lg:h-full lg:mr-4 lg:w-72 left-0 top-0 h-full w-full bg-[#F5F2EB] border border-slate-300 p-5 rounded-2xl shadow-2xl z-50 flex flex-col justify-between transition-all duration-300 ease-out lg:origin-right origin-center ${
           isSidebarHovered
-            ? 'opacity-100 translate-x-0 scale-100 pointer-events-auto'
-            : 'opacity-0 translate-x-4 scale-95 pointer-events-none'
+            ? 'opacity-100 translate-y-0 lg:translate-x-0 scale-100 pointer-events-auto'
+            : 'opacity-0 translate-y-4 lg:translate-y-0 lg:translate-x-4 scale-95 pointer-events-none'
         }`}
       >
         {/* Tooltip Header */}
@@ -74,7 +74,7 @@ export function StreakCard({ streak, isSidebarHovered = false }: StreakCardProps
         </div>
         
         {/* Dynamic pointer arrow matching background border */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-full w-2.5 h-2.5 rotate-45 bg-[#F5F2EB] border-r border-t border-slate-300 -ml-1.5" />
+        <div className="hidden lg:block absolute top-1/2 -translate-y-1/2 left-full w-2.5 h-2.5 rotate-45 bg-[#F5F2EB] border-r border-t border-slate-300 -ml-1.5" />
       </div>
 
       {/* Top Header: Title (left) & Solved (right) */}

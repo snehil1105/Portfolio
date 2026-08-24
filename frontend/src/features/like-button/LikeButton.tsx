@@ -82,7 +82,7 @@ export function LikeButton({ showPrompt = false }: LikeButtonProps) {
 
       {/* Small support prompt popup below the button (rendered only for main header button) */}
       {showPrompt && showPopup && (
-        <div className="absolute top-full mt-4.5 z-50 bg-[#16181D] border border-accent/35 px-5 py-2.5 rounded-2xl shadow-2xl text-xs sm:text-sm font-sans text-slate-200 font-normal tracking-wide whitespace-nowrap transition-all duration-300 ease-in-out">
+        <div className="absolute top-full mt-4.5 z-50 bg-[#16181D] border border-accent/35 px-5 py-2.5 rounded-2xl shadow-2xl text-xs sm:text-sm font-sans text-slate-200 font-normal tracking-wide whitespace-normal sm:whitespace-nowrap max-w-[280px] sm:max-w-none text-center transition-all duration-300 ease-in-out">
           
           {/* Top pointer arrow */}
           <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-2.5 h-2.5 rotate-45 bg-[#16181D] border-l border-t border-accent/35" />

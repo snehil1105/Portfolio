@@ -19,10 +19,10 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-20 sm:w-24 bg-[#111318] border-r border-white/5 flex flex-col items-center py-8 h-full flex-shrink-0 relative z-20">
+    <aside className="w-16 sm:w-20 md:w-24 bg-[#111318] border-r border-white/5 flex flex-col items-center py-6 sm:py-8 h-full flex-shrink-0 relative z-20">
       
       {/* Brand logo */}
-      <div className="mb-12 text-center">
+      <div className="mb-8 sm:mb-12 text-center">
         <span className="font-serif font-semibold text-sm text-slate-100 tracking-tight block">
           Snehil
         </span>
@@ -32,14 +32,14 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       </div>
 
       {/* Vertical dock menu */}
-      <nav className="flex-1 flex flex-col gap-3 w-full px-2">
+      <nav className="flex-1 flex flex-col gap-2 sm:gap-3 w-full px-1 sm:px-2">
         {menuItems.map((item) => {
           const isActive = item.id === activeTab;
           return (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex flex-col items-center justify-center gap-1.5 py-3 px-1 rounded-xl transition-all duration-200 border text-center ${
+              className={`w-full flex flex-col items-center justify-center gap-1 sm:gap-1.5 py-2 sm:py-3 px-0.5 sm:px-1 rounded-lg sm:rounded-xl transition-all duration-200 border text-center ${
                 isActive
                   ? 'bg-accent/15 border-accent/30 text-accent shadow-md shadow-accent/5'
                   : 'bg-transparent border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
@@ -52,7 +52,7 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
               </div>
 
               {/* Section label (Directly underneath, always visible) */}
-              <span className="text-[9px] font-sans tracking-wider font-semibold">
+              <span className="text-[8px] sm:text-[9px] font-sans tracking-wider font-semibold">
                 {item.label}
               </span>
             </button>
