@@ -1,122 +1,76 @@
 import { useState } from 'react';
-import { Sidebar, TabId } from './shared/components/Sidebar';
-import { Header } from './shared/components/Header';
+import { Navbar } from './shared/components/Navbar';
+import { StreakCurtain } from './features/streaks/StreakCurtain';
+import { Hero } from './features/hero/Hero';
 import { About } from './features/about/About';
 import { Skills } from './features/skills/Skills';
 import { Services } from './features/services/Services';
 import { ProjectsSection } from './features/projects/ProjectsSection';
 import { ExperienceSection } from './features/experience/ExperienceSection';
 import { ContactSection } from './features/contact/ContactSection';
-import { StreakSection } from './features/streaks/StreakSection';
-import { QuoteRotator } from './features/hero/QuoteRotator';
 import { SideRays } from './shared/components/SideRays';
+import { Footer } from './shared/components/Footer';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<TabId>('about');
-  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('home');
 
-  const isDarkTab = false; // All tabs use the light-cream theme background
-
-  const renderActiveSection = () => {
+  const renderSection = () => {
     switch (activeTab) {
+      case 'home':
+        return <Hero onNavigate={setActiveTab} />;
       case 'about':
         return <About />;
       case 'skills':
-        return (
-          <section id="skills" className="bg-bgLightDark text-charcoal py-16 px-6">
-            <div className="max-w-3xl mx-auto">
-              <Skills />
-            </div>
-          </section>
-        );
+        return <Skills />;
       case 'services':
-        return (
-          <section id="services" className="bg-bgLightDark text-charcoal py-16 px-6">
-            <div className="max-w-3xl mx-auto">
-              <Services />
-            </div>
-          </section>
-        );
+        return <Services />;
       case 'projects':
         return <ProjectsSection />;
       case 'experience':
-        return (
-          <section id="experience" className="bg-bgLightMed text-charcoal py-16 px-6">
-            <div className="max-w-3xl mx-auto">
-              <ExperienceSection />
-            </div>
-          </section>
-        );
+        return <ExperienceSection />;
       case 'contact':
         return <ContactSection />;
       default:
-        return <About />;
+        return <Hero onNavigate={setActiveTab} />;
     }
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex bg-bgDark text-slate-200 selection:bg-accent/30 selection:text-amber-200 font-sans">
+    <div className="min-h-screen w-full bg-[#0E0606] text-slate-100 font-sans relative overflow-x-hidden selection:bg-[#E63B2E]/30 selection:text-amber-200">
       
-      {/* Left: Sidebar Vertical Dock Menu */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* 1. Top Hanging Pull-Down Curtain Widget for LeetCode & Codeforces Live Coding Activity */}
+      <StreakCurtain />
 
-      {/* Right: Work Panel */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-[#111318]">
-        
-        {/* Shared SideRays Background Animation across Header & Right Sidebar */}
-        <div className="absolute inset-0 pointer-events-none opacity-85 z-0">
+      {/* Ambient Red/Orange Background Glow matching Dribbble Reference */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_70%_at_50%_-10%,rgba(230,59,46,0.35),rgba(14,6,6,1))]" />
+        <div className="absolute inset-0 opacity-40">
           <SideRays 
-            rayColor1="#EAB308"
-            rayColor2="#96c8ff"
+            rayColor1="#E63B2E"
+            rayColor2="#FF8C00"
             origin="top-right"
-            speed={2.5}
-            intensity={2}
+            speed={2}
+            intensity={1.8}
             spread={2}
             tilt={0}
-            opacity={1}
+            opacity={0.8}
           />
         </div>
+      </div>
 
-        {/* Top: Header centered with Heart support button */}
-        <Header />
+      {/* Main Container Content */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        
+        {/* Top Navbar */}
+        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* Bottom Pane: split center and right */}
-        <div className="flex-1 flex flex-col lg:flex-row h-full overflow-y-auto lg:overflow-hidden relative z-10">
-          
-          {/* Center Column: Active section viewer & Quote speech bubble */}
-          <div 
-            className={`flex-1 flex flex-col overflow-y-visible lg:overflow-y-auto no-scrollbar transition-colors duration-500 relative z-10 ${
-              isDarkTab ? 'bg-bgDarkMed' : 'bg-bgLight'
-            }`}
-          >
-            {/* Section Render */}
-            <div className="flex-1">
-              {renderActiveSection()}
-            </div>
+        {/* Dynamic Section Card Page */}
+        <main className="flex-1 py-4 transition-all duration-300">
+          {renderSection()}
+        </main>
 
-            {/* Centered Speech Bubble Quote */}
-            <div className="py-12 px-6 flex-shrink-0 flex items-center justify-center border-t border-slate-300/20 dark:border-white/5">
-              <QuoteRotator />
-            </div>
-          </div>
-
-          {/* Right Column: Coding platform streak logs */}
-          <aside 
-            onMouseEnter={() => setIsSidebarHovered(true)}
-            onMouseLeave={() => setIsSidebarHovered(false)}
-            className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-white/5 p-6 flex flex-col gap-4 flex-shrink-0 relative z-10 bg-transparent"
-          >
-            
-            {/* Content wrapped in relative layer to float above SideRays */}
-            <div className="relative w-full flex flex-col gap-4">
-              <h2 className="font-serif font-bold text-2xl sm:text-3xl text-slate-100 mb-6 leading-tight px-1">
-                Coding Activity
-              </h2>
-              <StreakSection isSidebarHovered={isSidebarHovered} />
-            </div>
-          </aside>
-
-        </div>
+        {/* Footer */}
+        <Footer onNavigate={setActiveTab} />
 
       </div>
 

@@ -9,6 +9,7 @@ public class StreakDTO {
     private int totalSolved;
     private int currentStreak;
     private String solvedToday;
+    private String submissionCalendar;
 
     public StreakDTO() {}
 
@@ -16,6 +17,14 @@ public class StreakDTO {
         this.totalSolved = totalSolved;
         this.currentStreak = currentStreak;
         this.solvedToday = solvedToday;
+        this.submissionCalendar = "{}";
+    }
+
+    public StreakDTO(int totalSolved, int currentStreak, String solvedToday, String submissionCalendar) {
+        this.totalSolved = totalSolved;
+        this.currentStreak = currentStreak;
+        this.solvedToday = solvedToday;
+        this.submissionCalendar = submissionCalendar;
     }
 
     public int getTotalSolved() {
@@ -42,8 +51,16 @@ public class StreakDTO {
         this.solvedToday = solvedToday;
     }
 
+    public String getSubmissionCalendar() {
+        return submissionCalendar;
+    }
+
+    public void setSubmissionCalendar(String submissionCalendar) {
+        this.submissionCalendar = submissionCalendar;
+    }
+
     public StreakSnapshot toEntity(Platform platform) {
-        return new StreakSnapshot(platform, this.totalSolved, this.currentStreak, LocalDateTime.now(), this.solvedToday);
+        return new StreakSnapshot(platform, this.totalSolved, this.currentStreak, LocalDateTime.now(), this.solvedToday, this.submissionCalendar);
     }
 
     @Override
@@ -52,6 +69,7 @@ public class StreakDTO {
                 "totalSolved=" + totalSolved +
                 ", currentStreak=" + currentStreak +
                 ", solvedToday='" + solvedToday + '\'' +
+                ", submissionCalendar='" + submissionCalendar + '\'' +
                 '}';
     }
 }

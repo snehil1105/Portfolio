@@ -24,14 +24,19 @@ public class StreakSnapshot {
     @Column(length = 2000)
     private String solvedToday;
 
+    // Stores JSON formatted calendar submission history for exact streak heatmaps
+    @Column(columnDefinition = "TEXT")
+    private String submissionCalendar;
+
     public StreakSnapshot() {}
 
-    public StreakSnapshot(Platform platform, int totalSolved, int currentStreak, LocalDateTime lastUpdated, String solvedToday) {
+    public StreakSnapshot(Platform platform, int totalSolved, int currentStreak, LocalDateTime lastUpdated, String solvedToday, String submissionCalendar) {
         this.platform = platform;
         this.totalSolved = totalSolved;
         this.currentStreak = currentStreak;
         this.lastUpdated = lastUpdated;
         this.solvedToday = solvedToday;
+        this.submissionCalendar = submissionCalendar;
     }
 
     public Platform getPlatform() {
@@ -72,5 +77,13 @@ public class StreakSnapshot {
 
     public void setSolvedToday(String solvedToday) {
         this.solvedToday = solvedToday;
+    }
+
+    public String getSubmissionCalendar() {
+        return submissionCalendar;
+    }
+
+    public void setSubmissionCalendar(String submissionCalendar) {
+        this.submissionCalendar = submissionCalendar;
     }
 }

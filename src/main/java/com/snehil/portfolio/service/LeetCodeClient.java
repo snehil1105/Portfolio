@@ -44,6 +44,7 @@ public class LeetCodeClient {
                 "    } " +
                 "    userCalendar { " +
                 "      streak " +
+                "      submissionCalendar " +
                 "    } " +
                 "  } " +
                 "  recentAcSubmissionList(username: $username, limit: 15) { " +
@@ -97,12 +98,18 @@ public class LeetCodeClient {
                 }
             }
 
-            // Extract streak
+            // Extract streak & submission calendar
             int streak = 0;
+            String submissionCalendar = "{}";
             @SuppressWarnings("unchecked")
             Map<String, Object> userCalendar = (Map<String, Object>) matchedUser.get("userCalendar");
-            if (userCalendar != null && userCalendar.get("streak") != null) {
-                streak = ((Number) userCalendar.get("streak")).intValue();
+            if (userCalendar != null) {
+                if (userCalendar.get("streak") != null) {
+                    streak = ((Number) userCalendar.get("streak")).intValue();
+                }
+                if (userCalendar.get("submissionCalendar") != null) {
+                    submissionCalendar = userCalendar.get("submissionCalendar").toString();
+                }
             }
 
             // Extract questions solved today & yesterday
@@ -141,7 +148,7 @@ public class LeetCodeClient {
 
             log.info("Successfully fetched LeetCode stats. Solved: {}, Streak: {}, Solved Today: {}", 
                      totalSolved, streak, solvedToday);
-            return new StreakDTO(totalSolved, streak, solvedToday);
+            return new StreakDTO(totalSolved, streak, solvedToday, submissionCalendar);
 
         } catch (Exception e) {
             log.error("Failed to fetch LeetCode statistics for username {}: {}", username, e.getMessage());

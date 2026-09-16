@@ -54,9 +54,10 @@ public class CodeforcesClient {
                 return new StreakDTO(0, 0, "");
             }
 
-            // Calculate total unique solved problems
+            // Calculate total unique solved problems & submission calendar map
             Set<String> solvedProblemIds = new HashSet<>();
             Set<LocalDate> solvedDates = new HashSet<>();
+            Map<String, Integer> calendarMap = new java.util.HashMap<>();
             
             LocalDate today = LocalDate.now(ZoneId.of("Asia/Kolkata"));
             LocalDate yesterday = today.minusDays(1);
@@ -86,6 +87,10 @@ public class CodeforcesClient {
                                 .toLocalDate();
                         solvedDates.add(date);
 
+                        long epochSecs = date.atStartOfDay(ZoneId.of("Asia/Kolkata")).toEpochSecond();
+                        String tsKey = String.valueOf(epochSecs);
+                        calendarMap.put(tsKey, calendarMap.getOrDefault(tsKey, 0) + 1);
+
                         // Check if solved today or yesterday (and deduplicate if multiple submissions exist for the same problem today)
                         if ((date.equals(today) || date.equals(yesterday)) && problem != null && problemId != null) {
                             if (!solvedTodayIds.contains(problemId)) {
@@ -107,9 +112,14 @@ public class CodeforcesClient {
             int currentStreak = calculateCurrentStreak(solvedDates);
             String solvedToday = String.join(";;", todayList);
 
+            String submissionCalendar = "{}";
+            try {
+                submissionCalendar = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(calendarMap);
+            } catch (Exception ignored) {}
+
             log.info("Successfully fetched Codeforces stats. Solved: {}, Streak: {}, Solved Today: {}", 
                      totalSolved, currentStreak, solvedToday);
-            return new StreakDTO(totalSolved, currentStreak, solvedToday);
+            return new StreakDTO(totalSolved, currentStreak, solvedToday, submissionCalendar);
 
         } catch (Exception e) {
             log.error("Failed to fetch Codeforces statistics for handle {}: {}", handle, e.getMessage());

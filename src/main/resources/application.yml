@@ -3,6 +3,11 @@ spring:
     name: portfolio
   profiles:
     active: dev
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000ms
   thymeleaf:
     cache: false # Disabled for easy local design iteration
 

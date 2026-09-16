@@ -30,19 +30,19 @@ export function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         
         <div>
-          <label htmlFor="contact-name" className="block text-[10px] font-mono uppercase text-slate-500 tracking-wider mb-2">Name (Optional)</label>
+          <label htmlFor="contact-name" className="block text-[10px] font-mono uppercase text-amber-200 tracking-wider mb-2 font-bold">Name (Optional)</label>
           <input 
             id="contact-name"
             type="text" 
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your Name"
-            className="w-full bg-[#F5F2EB] border border-slate-300 rounded-lg px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-accent/40 transition-colors"
+            className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-200/60 transition-colors font-sans"
           />
         </div>
 
         <div>
-          <label htmlFor="contact-email" className="block text-[10px] font-mono uppercase text-slate-500 tracking-wider mb-2">Email (Required)</label>
+          <label htmlFor="contact-email" className="block text-[10px] font-mono uppercase text-amber-200 tracking-wider mb-2 font-bold">Email (Required)</label>
           <input 
             id="contact-email"
             type="email" 
@@ -50,14 +50,14 @@ export function ContactForm() {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="your.email@example.com"
-            className="w-full bg-[#F5F2EB] border border-slate-300 rounded-lg px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-accent/40 transition-colors"
+            className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-200/60 transition-colors font-sans"
           />
         </div>
 
       </div>
 
       <div>
-        <label htmlFor="contact-message" className="block text-[10px] font-mono uppercase text-slate-500 tracking-wider mb-2">Message (Required)</label>
+        <label htmlFor="contact-message" className="block text-[10px] font-mono uppercase text-amber-200 tracking-wider mb-2 font-bold">Message (Required)</label>
         <textarea 
           id="contact-message"
           value={message}
@@ -65,15 +65,15 @@ export function ContactForm() {
           required
           rows={5}
           placeholder="Describe your inquiry..."
-          className="w-full bg-[#F5F2EB] border border-slate-300 rounded-lg px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-accent/40 transition-colors resize-none"
+          className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-200/60 transition-colors resize-none font-sans"
         />
       </div>
 
       <button 
         type="submit"
-        className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white text-xs font-mono uppercase tracking-widest py-4 rounded-lg transition-all duration-200 active:scale-[0.98]"
+        className="w-full flex items-center justify-center gap-2 bg-white text-slate-900 hover:bg-amber-200 text-xs font-mono uppercase tracking-widest font-bold py-4 rounded-xl shadow-lg transition-all duration-200 active:scale-[0.98]"
       >
-        <Send size={12} />
+        <Send size={14} className="text-[#C23223]" />
         <span>Send Inquiry</span>
       </button>
     </form>

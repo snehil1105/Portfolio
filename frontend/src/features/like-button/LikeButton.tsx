@@ -49,21 +49,23 @@ export function LikeButton({ showPrompt = false }: LikeButtonProps) {
         
         {/* Heart Click Button */}
         <button
-          onClick={like}
-          disabled={liked}
-          className={`p-2 rounded-full transition-all duration-300 focus:outline-none ${
+          onClick={(e) => {
+            e.stopPropagation();
+            like();
+          }}
+          className={`p-2 rounded-full transition-all duration-300 focus:outline-none cursor-pointer ${
             liked 
-              ? 'bg-rose-500/10 text-rose-500' 
-              : 'bg-white/5 border border-white/5 text-slate-400 hover:text-rose-500 hover:border-rose-500/30 hover:bg-rose-500/5 active:scale-90'
+              ? 'bg-rose-500/20 text-rose-500 ring-2 ring-rose-500/40 scale-105' 
+              : 'bg-white/10 hover:bg-rose-500/20 text-slate-300 hover:text-rose-400 active:scale-90 border border-white/10'
           }`}
-          aria-label={liked ? "You have liked Snehil's profile" : "Like this profile"}
+          aria-label="Like this profile"
         >
           <Heart 
             size={20} 
             className={`transition-all duration-300 ${
               liked 
                 ? 'fill-rose-500 text-rose-500 scale-110' 
-                : 'hover:scale-110 text-slate-400'
+                : 'hover:scale-110 text-slate-300 group-hover:text-rose-400'
             }`} 
           />
         </button>

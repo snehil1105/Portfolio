@@ -13,17 +13,16 @@ export const PROJECTS_DATA: ProjectItem[] = [
     id: "webhook",
     number: "01",
     title: "Webhook Delivery Platform",
-    description: "A backend-focused webhook delivery platform designed to manage reliable event delivery between applications. The system focuses on webhook management, delivery processing, retries, security, failure handling, and scalable service architecture.",
-    stack: ["Java", "Spring Boot", "Spring Security", "JWT", "PostgreSQL", "Redis", "Docker", "Docker Compose", "Microservices"],
+    description: "A high-performance backend webhook delivery platform built with Spring Boot, Redis Streams, and Server-Sent Events (SSE). Features reliable asynchronous event queueing, cache-first Redis status tracking, exponential backoff retries, and real-time event streaming.",
+    stack: ["Java 21", "Spring Boot 3", "Spring Data JPA", "PostgreSQL", "Spring Data Redis", "Redis Streams", "Server-Sent Events (SSE)", "Spring Security", "Docker"],
     githubUrl: "https://github.com/snehil1105/Webhook-proj.git",
     highlights: [
-      "Microservices-based architecture",
-      "Reliable webhook delivery workflow",
-      "Retry and failure handling concepts",
-      "PostgreSQL for persistent data",
-      "Redis integration for fast processing/caching",
-      "Dockerized local development environment",
-      "Secure API access and authentication"
+      "Redis Streams for high-throughput asynchronous event queueing",
+      "Cache-first Redis architecture with PostgreSQL transactional fallback",
+      "Server-Sent Events (SSE) for real-time live delivery monitoring",
+      "Exponential backoff retry engine & dead-letter queue processing",
+      "Spring Security & JWT for secure API endpoint protection",
+      "Dockerized microservice environment"
     ]
   },
   {

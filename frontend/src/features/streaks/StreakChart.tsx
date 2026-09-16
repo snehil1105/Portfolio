@@ -3,123 +3,141 @@ import { Platform } from './useStreaks';
 interface StreakChartProps {
   platform: Platform;
   streak: number;
+  submissionCalendar?: string;
 }
 
-interface SlotStyle {
-  height: number; // Peak height out of 100
-  widthMult: number; // Width multiplier relative to slot width
-}
-
-// Config matching LeetCode: wide middle mountain, tall thin right mountain
-const LEETCODE_SLOTS: SlotStyle[] = [
-  { height: 25, widthMult: 0.6 },
-  { height: 40, widthMult: 0.9 },
-  { height: 30, widthMult: 0.7 },
-  { height: 75, widthMult: 1.8 }, // Wide middle mountain
-  { height: 35, widthMult: 0.8 },
-  { height: 45, widthMult: 0.9 },
-  { height: 20, widthMult: 0.6 },
-  { height: 95, widthMult: 0.4 }, // Tall thin right mountain
+// Standard LeetCode/GitHub contribution color scale
+const COLOR_LEVELS = [
+  'bg-[#21262D] border border-white/5', // Level 0: None
+  'bg-[#0E4429]',                       // Level 1: Low (1 submission)
+  'bg-[#006D32]',                       // Level 2: Medium (2 submissions)
+  'bg-[#26A641]',                       // Level 3: High (3-4 submissions)
+  'bg-[#39D353]'                        // Level 4: Ultra (5+ submissions)
 ];
 
-// Config matching Codeforces: tall thin left mountain, wide right mountain
-const CODEFORCES_SLOTS: SlotStyle[] = [
-  { height: 20, widthMult: 0.5 },
-  { height: 95, widthMult: 0.4 }, // Tall thin left mountain
-  { height: 35, widthMult: 0.7 },
-  { height: 25, widthMult: 0.6 },
-  { height: 45, widthMult: 0.8 },
-  { height: 80, widthMult: 1.7 }, // Wide right mountain
-  { height: 30, widthMult: 0.8 },
-  { height: 25, widthMult: 0.6 },
-];
+export function StreakChart({ platform: _platform, streak, submissionCalendar }: StreakChartProps) {
+  const NUM_COLS = 21;
+  const NUM_ROWS = 7;
 
-export function StreakChart({ platform, streak }: StreakChartProps) {
-  const isLeetcode = platform === 'LEETCODE';
-  const config = isLeetcode ? LEETCODE_SLOTS : CODEFORCES_SLOTS;
-  const numSlots = config.length;
+  // Parse submission calendar map (epoch/dateStr -> count)
+  const calendarCounts = new Map<string, number>();
+  if (submissionCalendar) {
+    try {
+      const parsed = JSON.parse(submissionCalendar);
+      Object.entries(parsed).forEach(([key, val]) => {
+        const count = typeof val === 'number' ? val : parseInt(String(val), 10);
+        if (!isNaN(count)) {
+          if (/^\d+$/.test(key)) {
+            // Epoch seconds
+            const d = new Date(parseInt(key, 10) * 1000);
+            const dateStr = d.toISOString().split('T')[0];
+            calendarCounts.set(dateStr, (calendarCounts.get(dateStr) || 0) + count);
+          } else {
+            // YYYY-MM-DD
+            calendarCounts.set(key, (calendarCounts.get(key) || 0) + count);
+          }
+        }
+      });
+    } catch (e) {
+      console.warn("Failed to parse submissionCalendar:", e);
+    }
+  }
 
-  const width = 300;
-  const height = 90;
-  const baseline = 80; // Y baseline coordinate
+  // Calculate grid dates ending at today
+  const today = new Date();
+  const dayOfWeek = (today.getDay() + 6) % 7; // Mon = 0, ..., Sun = 6
+  
+  // Create 21 columns x 7 rows grid
+  const gridCells = Array.from({ length: NUM_COLS }, (_, colIdx) => {
+    return Array.from({ length: NUM_ROWS }, (_, rowIdx) => {
+      const daysFromToday = (NUM_COLS - 1 - colIdx) * 7 + (dayOfWeek - rowIdx);
+      
+      const date = new Date(today);
+      date.setDate(today.getDate() - daysFromToday);
+      const dateStr = date.toISOString().split('T')[0];
+      const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-  // Generate SVG polygon points for each slot
-  const triangles = config.map((slot, i) => {
-    const isActive = (numSlots - 1 - i) < streak && streak > 0;
-    
-    const slotWidth = width / numSlots;
-    const xCenter = (i + 0.5) * slotWidth;
-    const baseWidth = slotWidth * slot.widthMult;
-    
-    const xStart = xCenter - baseWidth / 2;
-    const xEnd = xCenter + baseWidth / 2;
-    const yPeak = baseline - (slot.height * (baseline / 100));
+      const realCount = calendarCounts.get(dateStr) || 0;
 
-    const points = `${xStart.toFixed(1)},${baseline} ${xCenter.toFixed(1)},${yPeak.toFixed(1)} ${xEnd.toFixed(1)},${baseline}`;
+      let level = 0;
+      if (realCount >= 5) level = 4;
+      else if (realCount >= 3) level = 3;
+      else if (realCount === 2) level = 2;
+      else if (realCount === 1) level = 1;
+      else if (daysFromToday >= 0 && daysFromToday < streak && streak > 0) {
+        level = 2; // Active streak fallback
+      }
 
-    return {
-      points,
-      isActive,
-      xCenter,
-      yPeak
-    };
+      return {
+        dateStr,
+        formattedDate,
+        count: realCount,
+        level,
+        daysFromToday,
+        isCurrentActive: daysFromToday >= 0 && daysFromToday < streak && streak > 0
+      };
+    });
   });
 
-  const activeGradientId = `active-grad-light-${platform.toLowerCase()}`;
-  const strokeColor = '#c2410c'; // Muted burnt orange for both to maintain unified accent
+  const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+  const dayLabels = ['', 'M', '', 'W', '', 'F', ''];
 
   return (
-    <div className="w-full h-[100px] overflow-hidden">
-      <svg 
-        viewBox={`0 0 ${width} ${height}`} 
-        className="w-full h-full overflow-visible"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          {/* Subtle warm amber/orange gradient fill for active streaks */}
-          <linearGradient id={activeGradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={strokeColor} stopOpacity={0.25} />
-            <stop offset="100%" stopColor={strokeColor} stopOpacity={0.0} />
-          </linearGradient>
-        </defs>
+    <div className="w-full flex flex-col justify-center items-center py-1">
+      {/* Month Header / Legend Header */}
+      <div className="w-full flex justify-between items-center mb-1.5 px-0.5">
+        <div className="flex gap-4 text-[9px] font-mono text-slate-400">
+          {monthLabels.map((m, idx) => (
+            <span key={idx} className="tracking-tighter">{m}</span>
+          ))}
+        </div>
+        <div className="flex items-center gap-1 text-[9px] font-mono text-slate-400">
+          <span>Less</span>
+          {COLOR_LEVELS.map((color, i) => (
+            <div key={i} className={`w-2 h-2 rounded-[1.5px] ${color}`} />
+          ))}
+          <span>More</span>
+        </div>
+      </div>
 
-        {/* Flat baseline */}
-        <line 
-          x1="0" 
-          y1={baseline} 
-          x2={width} 
-          y2={baseline} 
-          stroke="rgba(30,32,34,0.08)" 
-          strokeWidth="1" 
-        />
+      {/* Contribution Grid Container */}
+      <div className="flex gap-1 items-center justify-center w-full">
+        {/* Day of Week Labels */}
+        <div className="grid grid-rows-7 gap-[2px] text-[8px] font-mono text-slate-400 leading-none mr-1 select-none">
+          {dayLabels.map((d, i) => (
+            <span key={i} className="h-2.5 flex items-center justify-center w-2 text-center">
+              {d}
+            </span>
+          ))}
+        </div>
 
-        {/* Render each day's triangle */}
-        {triangles.map((tri, i) => (
-          <polygon
-            key={i}
-            points={tri.points}
-            fill={tri.isActive ? `url(#${activeGradientId})` : 'none'}
-            stroke={tri.isActive ? strokeColor : 'rgba(30,32,34,0.06)'}
-            strokeWidth={tri.isActive ? '1.5' : '0.75'}
-            strokeDasharray={tri.isActive ? 'none' : '2,2'}
-            className="transition-all duration-500"
-          />
-        ))}
-
-        {/* Hover/Visual tags for peaks if active */}
-        {triangles.map((tri, i) => {
-          if (!tri.isActive) return null;
-          return (
-            <circle
-              key={`dot-${i}`}
-              cx={tri.xCenter}
-              cy={tri.yPeak}
-              r="2"
-              fill={strokeColor}
-            />
-          );
-        })}
-      </svg>
+        {/* 7 x 21 Heatmap Grid Columns */}
+        <div className="flex gap-[2.5px] overflow-x-auto no-scrollbar py-0.5">
+          {gridCells.map((col, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-[2.5px]">
+              {col.map((cell, rowIdx) => (
+                <div
+                  key={rowIdx}
+                  title={`${cell.formattedDate}: ${
+                    cell.count > 0 
+                      ? `${cell.count} submission${cell.count > 1 ? 's' : ''}` 
+                      : cell.isCurrentActive 
+                        ? 'Active streak day' 
+                        : 'No submissions'
+                  }`}
+                  className={`w-2.5 h-2.5 rounded-[1.5px] transition-all duration-300 ${
+                    COLOR_LEVELS[cell.level]
+                  } ${
+                    cell.isCurrentActive 
+                      ? 'ring-1 ring-[#39D353]/50 shadow-[0_0_4px_rgba(57,211,83,0.4)]' 
+                      : 'hover:opacity-80'
+                  }`}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

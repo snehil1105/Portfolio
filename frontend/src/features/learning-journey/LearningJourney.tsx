@@ -2,8 +2,8 @@ export function LearningJourney() {
   const milestones = [
     {
       year: "2026",
-      title: "Modular Integration & Webhooks",
-      description: "Designed HookRelay to explore asynchronous event processing, database locks, and retry queues using Spring Data JPA."
+      title: "Webhook Delivery & Real-Time Event Streaming",
+      description: "Engineered a scalable Webhook Delivery Platform utilizing Redis Streams, Spring Data Redis cache-first storage, PostgreSQL transactional locks, exponential backoff retries, and Server-Sent Events (SSE)."
     },
     {
       year: "2025",
